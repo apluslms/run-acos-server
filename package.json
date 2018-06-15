@@ -47,10 +47,6 @@
     "nunjucks": "^3.0.1",
     "serve-favicon": "^2.4.3"
   },
-  "devDependencies": {
-    "webdriverio": "~3.4.0",
-    "chai": "~3.5.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/acos-server/acos-server.git"

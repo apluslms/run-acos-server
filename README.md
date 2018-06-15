@@ -13,6 +13,9 @@ The `package.json` file in this repository is used to install additional
 ACOS content types and packages as NPM modules to the container. It replaces
 the original package.json file in the ACOS server repository.
 
+It is possible to mount ACOS content types and/or packages from the host machine
+into the container in case you want to run and test them in the container while
+developing them.
 
 ### Usage
 
@@ -25,6 +28,12 @@ services:
   acos:
     image: apluslms/run-acos-server
     ports:
-      - "8070:3000"
+      - "3000:3000"
+    volumes:
+      # mount the log directory so that logs are stored in the host directory (optional)
+      - ./_data/acos/:/var/log/acos
+      # mount packages under development from the native host (optional)
+      - /host/path/to/acos-mycontentpackage/:/usr/src/acos-server/node_modules/acos-mycontentpackage
+      - /host/path/to/acos-mycontenttype/:/usr/src/acos-server/node_modules/acos-mycontenttype
 ```
 

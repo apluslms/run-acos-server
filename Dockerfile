@@ -1,10 +1,15 @@
 FROM node:6-stretch
 
+RUN mkdir -p /var/log/acos/logs /var/log/acos/public_logs \
+  && chmod -R 1777 /var/log/acos
+
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/acos-server
 
 # install acos-server itself
 RUN git clone https://github.com/acos-server/acos-server.git . \
+  && (echo "On branch $(git rev-parse --abbrev-ref HEAD)"; echo; git log -n5) > GIT \
+  && rm -rf .git \
   && rm package-lock.json \
   && echo 'require("coffeescript/register");' | cat - app.js > temp && mv temp app.js
 
@@ -16,9 +21,12 @@ RUN git clone https://github.com/acos-server/acos-server.git . \
 # copy a modified package.json file of the acos-server
 # it has additional dependencies in order to install more content types and content packages
 COPY package.json ./
-RUN npm install
+COPY config.js ./
+RUN rm -rf node_modules \
+  && npm install --only=production
+# no devDependencies installed from package.json
 
-
+VOLUME /var/log/acos
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
