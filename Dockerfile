@@ -1,7 +1,7 @@
 FROM node:6-stretch
 
-RUN mkdir -p /var/log/acos/logs /var/log/acos/public_logs \
-  && chmod -R 1777 /var/log/acos
+RUN mkdir /var/log/acos \
+  && chmod 1777 /var/log/acos
 
 # Create app directory
 WORKDIR /usr/src/acos-server
