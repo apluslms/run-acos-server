@@ -31,7 +31,10 @@ services:
       - "3000:3000"
     volumes:
       # mount the log directory so that logs are stored in the host directory (optional)
-      - ./_data/acos/:/var/log/acos
+      # mounting the log directory does not work due to file permission issues, i.e.,
+      # the acos server process has no permissions to write to the directory if
+      # a bind mount is in use
+      #- ./_data/acos/:/var/log/acos
       # mount packages under development from the native host (optional)
       - /host/path/to/acos-mycontentpackage/:/usr/src/acos-server/node_modules/acos-mycontentpackage
       - /host/path/to/acos-mycontenttype/:/usr/src/acos-server/node_modules/acos-mycontenttype
