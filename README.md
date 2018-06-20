@@ -1,5 +1,5 @@
 A Docker container that runs the [ACOS server](https://github.com/acos-server/acos-server)
-exposed to port 8080.
+exposed to port 3000.
 
 The container may be used on its own to test exercises directly in the ACOS server,
 or it may be used as an exercise service to
@@ -15,7 +15,8 @@ the original package.json file in the ACOS server repository.
 
 It is possible to mount ACOS content types and/or packages from the host machine
 into the container in case you want to run and test them in the container while
-developing them.
+developing them. Likewise, ACOS logs may be stored in the host by mounting
+the log directory.
 
 ### Usage
 
@@ -29,11 +30,13 @@ services:
     image: apluslms/run-acos-server
     ports:
       - "3000:3000"
+    # set the user ID of the container process with environment variables (optional)
+    #user: $USER_ID:$USER_GID
     volumes:
       # mount the log directory so that logs are stored in the host directory (optional)
-      # mounting the log directory does not work due to file permission issues, i.e.,
-      # the acos server process has no permissions to write to the directory if
-      # a bind mount is in use
+      # the host directory should be created before starting the container so that
+      # the host user has permission to modify the directory, especially if
+      # the container process is executed with the user ID of the host user
       #- ./_data/acos/:/var/log/acos
       # mount packages under development from the native host (optional)
       - /host/path/to/acos-mycontentpackage/:/usr/src/acos-server/node_modules/acos-mycontentpackage

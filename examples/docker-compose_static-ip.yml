@@ -1,0 +1,61 @@
+version: '3'
+
+# docker-compose.yml with A+, MOOC-grader, and ACOS-server
+# (Environment variables USER_ID, DOCKER_GID, and USER_GID should be set or
+# alternatively, the user definitions may be removed from this file.
+# The mount directories _data and _data/acos should also be created beforehand
+# with the corresponding owner so that they do not become owned by the root user.)
+#
+# This setup sets static IP addresses to the containers so that the IP of the
+# ACOS container is known beforehand. Consequently, ACOS exercises may be configured
+# in a MOOC-grader course using the static IP of the ACOS container. The private
+# Docker IP addresses work both between the containers as well as between the
+# host web browser and the containers, which is useful when ACOS exercises are
+# locally tested in A+. By default, the host web browser can not resolve the
+# internal Docker domain names of the containers that would normally be used
+# for networking between the containers. When ACOS exercises are served via A+,
+# the web browser needs to directly connect to the ACOS server as well.
+
+services:
+  grader:
+    image: apluslms/run-mooc-grader
+    user: $USER_ID:$DOCKER_GID
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/aplus:/tmp/aplus
+      - .:/srv/courses/default:ro
+      - ./_data/:/srv/data
+    ports:
+      - "8080:8080"
+    networks:
+      static_net:
+        ipv4_address: "172.21.0.2"
+  plus:
+    image: apluslms/run-aplus-front
+    user: $USER_ID:$USER_GID
+    volumes:
+      - ./_data/:/srv/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - grader
+    networks:
+      static_net:
+        ipv4_address: "172.21.0.3"
+  acos:
+    image: apluslms/run-acos-server
+    user: $USER_ID:$USER_GID
+    ports:
+      - "3000:3000"
+    networks:
+      static_net:
+        ipv4_address: "172.21.0.4"
+    volumes:
+      - ./_data/acos/:/var/log/acos
+
+networks:
+  static_net:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+
