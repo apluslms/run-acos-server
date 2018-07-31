@@ -35,7 +35,6 @@
     "acos-python-parser": "^0.1.1",
     "archiver": "^2.0.0",
     "body-parser": "^1.17.2",
-    "coffeescript": "^2.0.0",
     "colors": "~1.1.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
