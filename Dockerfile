@@ -1,4 +1,4 @@
-FROM node:8-stretch
+FROM node:12-buster
 
 RUN mkdir /var/log/acos \
   && chmod 1777 /var/log/acos
