@@ -1,8 +1,15 @@
 {
   "name": "acos-server",
   "version": "0.2.2",
+  "nodemonConfig": {
+    "ignoreRoot": [".git"],
+    "ext": "xml, json, js, html, css",
+    "ignore": ["test/*", "docs/*"],
+    "delay": "1000"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "acos-annotated": "^0.2.0",
@@ -44,7 +51,8 @@
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
     "nunjucks": "^3.1.3",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "nodemon": "^2.0.4"
   },
   "repository": {
     "type": "git",
