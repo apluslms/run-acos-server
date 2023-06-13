@@ -1,4 +1,4 @@
-FROM node:12-buster
+FROM --platform=$TARGETPLATFORM node:12-buster
 
 RUN mkdir /var/log/acos \
   && chmod 1777 /var/log/acos
@@ -24,4 +24,3 @@ VOLUME /var/log/acos
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
-
