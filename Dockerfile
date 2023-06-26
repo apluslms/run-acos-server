@@ -17,8 +17,9 @@ RUN git clone https://github.com/acos-server/acos-server.git . \
 COPY package.json ./
 COPY config.js ./
 RUN rm -rf node_modules \
-  && npm install --only=production
-# no devDependencies installed from package.json
+  && npm update --global npm \
+  && npm install \
+  && :
 
 VOLUME /var/log/acos
 EXPOSE 3000
