@@ -1,4 +1,4 @@
-FROM --platform=$TARGETPLATFORM node:12-buster
+FROM --platform=$TARGETPLATFORM node:18-bookworm
 
 RUN mkdir /var/log/acos \
   && chmod 1777 /var/log/acos
